@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: store
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  cloud:
+    function:
+      definition: receiveOrder;supply
+    stream:
+      kafka:
+        binder:
+          brokers: localfood-kafka:9092
+      bindings:
+        receiveOrder-in-0:
+          destination: localfood-topic
+          group: localfood-group
+        supply-out-0:
+          destination: localfood-topic
