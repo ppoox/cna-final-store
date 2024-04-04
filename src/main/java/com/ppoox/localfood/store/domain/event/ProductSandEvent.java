@@ -11,6 +11,7 @@ import lombok.Setter;
 public class ProductSandEvent extends AbstractEvent {
 
     private Long orderId;
+    private Long storeId;
     private Long productId;
     private String address;
 

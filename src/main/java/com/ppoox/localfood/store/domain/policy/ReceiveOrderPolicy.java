@@ -1,6 +1,6 @@
 package com.ppoox.localfood.store.domain.policy;
 
-import com.ppoox.localfood.store.application.port.out.persistence.ProductPersistencePort;
+import com.ppoox.localfood.store.application.port.out.persistence.StorePersistencePort;
 import com.ppoox.localfood.store.domain.event.OrderCanceledEvent;
 import com.ppoox.localfood.store.domain.event.OrderedEvent;
 import com.ppoox.localfood.store.domain.event.ProductSandEvent;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class ReceiveOrderPolicy {
 
-    private final ProductPersistencePort productPersistencePort;
+    private final StorePersistencePort storePersistencePort;
 
     @Bean
     public Consumer<Message<OrderedEvent>> receiveOrder() {
@@ -36,16 +36,17 @@ public class ReceiveOrderPolicy {
             }
 
 
-            productPersistencePort.findById(payload.getProductId()).ifPresentOrElse(product -> {
+            storePersistencePort.findByIdAndProductId(payload.getStoreId(), payload.getProductId()).ifPresentOrElse(product -> {
                 if (product.getStock() - payload.getQuantity() < 0) {
                     // 재고없음
                     orderCanceledEvent.publish();
                 } else {
                     product.decreaseStock(payload.getQuantity());
-                    productPersistencePort.save(product);
+                    storePersistencePort.save(product);
 
                     ProductSandEvent productSandEvent = new ProductSandEvent();
                     productSandEvent.setOrderId(payload.getId());
+                    productSandEvent.setStoreId(payload.getStoreId());
                     productSandEvent.setProductId(payload.getProductId());
                     productSandEvent.setAddress("서울시 서초구 효령로 147");
                     productSandEvent.publish();
