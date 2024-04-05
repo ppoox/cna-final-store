@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProductChangeEvent extends AbstractEvent {
 
-    private Long storeId;
+    private Long id;
     private Long productId;
     private String productName;
 

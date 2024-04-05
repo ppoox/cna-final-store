@@ -1,7 +1,6 @@
 package com.ppoox.localfood.store.domain;
 
 
-import com.ppoox.localfood.store.domain.event.ProductChangeEvent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,13 +39,6 @@ public class Store {
 
     public void decreaseStock(int stock) {
         this.stock -= stock;
-    }
-
-    @PostUpdate
-    public void onPostUpdate() {
-        ProductChangeEvent productChangeEvent = new ProductChangeEvent(this);
-        productChangeEvent.setStoreId(this.id);
-//        productChangeEvent.publish();
     }
 
     public void changeProductName(String productName) {

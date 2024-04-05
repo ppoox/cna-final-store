@@ -25,7 +25,6 @@ public class ReceiveOrderPolicy {
     public Consumer<Message<Ordered>> receiveOrder() {
 
         return message -> {
-            System.out.println("TEST " + message);
             MessageHeaders headers = message.getHeaders();
             if (!"ordered".equals(headers.get(KafkaHeaders.RECEIVED_TOPIC))) {
                 return;
