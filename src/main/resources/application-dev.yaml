@@ -16,14 +16,18 @@ spring:
         format_sql: true
   cloud:
     function:
-      definition: receiveOrder;supply
+      definition: receiveOrder;orderCanceled;productSand;productChanged
     stream:
       kafka:
         binder:
           brokers: localfood-kafka:9092
       bindings:
         receiveOrder-in-0:
-          destination: localfood-topic
-          group: localfood-group
-        supply-out-0:
-          destination: localfood-topic
+          destination: ordered
+          group: order
+        orderCanceled-out-0:
+          destination: order-canceled
+        productSand-out-0:
+          destination: product-sand
+        productChanged-out-0:
+          destination: product-changed

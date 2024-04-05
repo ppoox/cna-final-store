@@ -4,17 +4,17 @@ import com.ppoox.localfood.store.infrastructure.kafka.AbstractEvent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
-@Component
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrderCanceledEvent extends AbstractEvent {
+public class ProductChangeEvent extends AbstractEvent {
 
-    private Long orderId;
+    private Long storeId;
+    private Long productId;
+    private String productName;
 
-    public OrderCanceledEvent(Object aggregate) {
+    public ProductChangeEvent(Object aggregate) {
         super(aggregate);
     }
 

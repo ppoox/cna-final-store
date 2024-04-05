@@ -4,7 +4,9 @@ import com.ppoox.localfood.store.infrastructure.kafka.AbstractEvent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
+@Component
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,4 +20,5 @@ public class ProductSandEvent extends AbstractEvent {
     public ProductSandEvent(Object aggregate) {
         super(aggregate);
     }
+
 }

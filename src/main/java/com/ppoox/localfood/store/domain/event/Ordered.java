@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @ToString
-public class OrderedEvent {
+public class Ordered {
 
     private Long id;
     private Long storeId;

@@ -1,8 +1,10 @@
 package com.ppoox.localfood.store.domain;
 
 
+import com.ppoox.localfood.store.domain.event.ProductChangeEvent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "st_store")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Store {
@@ -25,6 +28,8 @@ public class Store {
 
     private Long productId;
 
+    private String productName;
+
     private int stock;
 
     @CreatedDate
@@ -32,7 +37,19 @@ public class Store {
 
     @LastModifiedDate
     private LocalDateTime updatedBy;
+
     public void decreaseStock(int stock) {
         this.stock -= stock;
+    }
+
+    @PostUpdate
+    public void onPostUpdate() {
+        ProductChangeEvent productChangeEvent = new ProductChangeEvent(this);
+        productChangeEvent.setStoreId(this.id);
+//        productChangeEvent.publish();
+    }
+
+    public void changeProductName(String productName) {
+        this.productName = productName;
     }
 }
